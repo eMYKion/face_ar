@@ -17,6 +17,11 @@ uid_counter = 0
 track_objs = dict()
 
 hbuff = {}
+histories_used = 20
+
+name_info = {
+  "Chris Seiler": "Backend motherfucker"
+}
 
 
 def majority(history):
@@ -72,7 +77,7 @@ def box_movement(boxes, dbg):
     for k in track_objs.keys():
       if k in hbuff:#not new face
         hbuff[k].insert(0,track_objs[k])
-        if (len(hbuff[k]) > 10):
+        if (len(hbuff[k]) > histories_used):
           hbuff[k].pop()
       else:#new face
         hbuff[k] = [track_objs[k]]

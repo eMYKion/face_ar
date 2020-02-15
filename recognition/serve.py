@@ -47,6 +47,7 @@ track.le = pickle.loads(open(args["le"], "rb").read())
 
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
 # Bind the socket to the port
 server_address = ('', 80)
