@@ -15,6 +15,7 @@ uid_counter = 0
 
 track_objs = dict()
 
+
 def box_movement(boxes, dbg):
   global uid_counter
 
@@ -24,7 +25,7 @@ def box_movement(boxes, dbg):
   for key in track_objs:
     untracked.add(key)
 
-  for (x1b, y1b, x2b, y2b) in boxes:
+  for (x1b, y1b, x2b, y2b, name_b) in boxes:
     b_ctr_x = (x2b + x1b) / 2
     b_ctr_y = (y2b + y1b) / 2
 
@@ -32,7 +33,7 @@ def box_movement(boxes, dbg):
     # check if the box is new
 
     for key in track_objs:
-      (x1, y1, x2, y2) = track_objs[key]
+      (x1, y1, x2, y2, name) = track_objs[key]
       ctr_x = (x2 + x1) / 2
       ctr_y = (y2 + y1) / 2
 
@@ -50,9 +51,14 @@ def box_movement(boxes, dbg):
       track_objs[uid_counter] = (x1b, y1b, x2b, y2b)
       uid_counter += 1
   
+
   for key in untracked:
     output_data += ("BOX GONE, %d\n" % key)
     del track_objs[key]
+
+  for key in track_objs:
+    (_, _, _, _, name) = track_objs[key]
+    output_data += ("NAME, %d, %s\n" % (key, name))
   
   output_data += "TERMINATED\n"
 
@@ -91,7 +97,6 @@ def process_frame(frame, dbg):
       box = detections[0, 0, i, 3:7] * np.array([w, h, w, h])
       (startX, startY, endX, endY) = box.astype("int")
 
-      boxes.append((startX, startY, endX, endY))
 
       # extract the face ROI
       face = frame[startY:endY, startX:endX]
@@ -114,6 +119,8 @@ def process_frame(frame, dbg):
       j = np.argmax(preds)
       proba = preds[j]
       name = le.classes_[j]
+      
+      boxes.append((startX, startY, endX, endY, name))
 
       # draw the bounding box of the face along with the
       # associated probability
