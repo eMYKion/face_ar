@@ -41,14 +41,14 @@ def box_movement(boxes, dbg):
 
       if (dist_ctr < distance_threshold) and (key in untracked):
         untracked.remove(key)
-        track_objs[key] = (x1b, y1b, x2b, y2b)
+        track_objs[key] = (x1b, y1b, x2b, y2b, name_b)
         output_data += ("POS UPDATE, %d, %d, %d, %d, %d\n" % (key, x1b, y1b, x2b, y2b))
         tracked = True
         break
     
     if not tracked:
       output_data += ("NEW BOX %d, %d, %d, %d, %d\n" % (uid_counter, x1b, y1b, x2b, y2b))
-      track_objs[uid_counter] = (x1b, y1b, x2b, y2b)
+      track_objs[uid_counter] = (x1b, y1b, x2b, y2b, name_b)
       uid_counter += 1
   
 
