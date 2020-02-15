@@ -81,7 +81,7 @@ while True:
                 real_w // scaling_factor))
       # print(img / 255)
 
-      output = track.track_faces(img, dbg=True)
+      output = track.track_faces(img, dbg=False)
 
       connection.send(output.encode())
 

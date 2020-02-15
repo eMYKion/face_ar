@@ -2,6 +2,7 @@ import cv2
 import imutils
 import numpy as np
 import math
+from collections import Counter
 
 detector = None
 conf = None
@@ -15,6 +16,12 @@ uid_counter = 0
 
 track_objs = dict()
 
+hbuff = {}
+
+
+def majority(history):
+  count = Counter([n for (_,_,_,_,n) in history])
+  return count.most_common(1)[0][0]
 
 def box_movement(boxes, dbg):
   global uid_counter
@@ -56,8 +63,28 @@ def box_movement(boxes, dbg):
     output_data += ("BOX GONE, %d\n" % key)
     del track_objs[key]
 
+  # track_objs: contains mappings {0: (x1,y1,x2,y2,name), 1: (...) }
+
+  if(len(hbuff) == 0):
+    for k in track_objs.keys():
+      hbuff[k] = [track_objs[k]]
+  else:
+    for k in track_objs.keys():
+      if k in hbuff:#not new face
+        hbuff[k].insert(0,track_objs[k])
+      if (len(hbuff[k]) > 10):
+        hbuff[k].pop()
+      else:#new face
+        hbuff[k] = [track_objs[k]]
+        
+
+  #history is now made
+  majority()
+    
+
+
   for key in track_objs:
-    (_, _, _, _, name) = track_objs[key]
+    name = majority(hbuff[k])#track_objs[key]
     output_data += ("NAME, %d, %s\n" % (key, name))
   
   output_data += "TERMINATED\n"
