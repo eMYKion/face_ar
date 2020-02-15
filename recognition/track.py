@@ -72,14 +72,14 @@ def box_movement(boxes, dbg):
     for k in track_objs.keys():
       if k in hbuff:#not new face
         hbuff[k].insert(0,track_objs[k])
-      if (len(hbuff[k]) > 10):
-        hbuff[k].pop()
+        if (len(hbuff[k]) > 10):
+          hbuff[k].pop()
       else:#new face
         hbuff[k] = [track_objs[k]]
         
 
   #history is now made
-  majority()
+  #majority()
     
 
 
