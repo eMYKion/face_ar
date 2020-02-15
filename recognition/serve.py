@@ -49,7 +49,7 @@ track.le = pickle.loads(open(args["le"], "rb").read())
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 # Bind the socket to the port
-server_address = ('', 8000)
+server_address = ('', 80)
 print('starting up on %s port %s' % server_address)
 sock.bind(server_address)
 # Listen for incoming connections
