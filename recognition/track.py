@@ -3,6 +3,7 @@ import imutils
 import numpy as np
 import math
 from collections import Counter
+import pandas as pd
 
 detector = None
 conf = None
@@ -19,12 +20,24 @@ track_objs = dict()
 hbuff = {}
 histories_used = 20
 
+
 name_info = {
   "Chris Seiler": "Facial Recognition",
   "Mayank Mali": "Backend and Data Filtering",
   "George Ralph": "UI and streaming",
   "Audrey Tzeng": "Networking and Networking"
 }
+
+def get_titles(filename):
+    ni = {}
+    df = pd.read_csv(filename)
+    df = df.set_index("name")
+    #print(df["title"])
+    for (name,series) in df.iterrows():
+        ni[name] = series["title"]
+    return ni
+
+name_info = get_titles("../data.csv")
 
 
 def majority(history):
