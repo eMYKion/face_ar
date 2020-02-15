@@ -20,7 +20,10 @@ hbuff = {}
 histories_used = 20
 
 name_info = {
-  "Chris Seiler": "Backend motherfucker"
+  "Chris Seiler": "Facial Recognition",
+  "Mayank Mali": "Backend and Data Filtering",
+  "George Ralph": "UI and streaming",
+  "Audrey Tzeng": "Networking and Networking"
 }
 
 
@@ -91,6 +94,8 @@ def box_movement(boxes, dbg):
   for key in track_objs:
     name = majority(hbuff[k])#track_objs[key]
     output_data += ("NAME, %d, %s\n" % (key, name))
+    if name in name_info:
+      output_data += ("INFO, %d, %s\n" % (key, name_info[name]))
   
   output_data += "TERMINATED\n"
 
